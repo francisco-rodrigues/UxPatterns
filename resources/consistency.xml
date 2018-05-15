@@ -1,0 +1,12 @@
+<consistency>
+    <page>
+        <url>
+            http://demo.guru99.com/
+        </url>
+        <element>
+            <![CDATA[<html>
+        <input name="btnLogin" value="Submit" type="submit">
+            ]]>
+        </element>
+    </page>
+</consistency>

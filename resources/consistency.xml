@@ -1,11 +1,11 @@
 <consistency>
     <page>
         <url>http://demo.guru99.com/</url>
-        <element><![CDATA[<input name="btnLogin" value="Submit" type="submit">]]></element>
+        <element><![CDATA[/html/body/form/table/tbody/tr[6]/td[2]/input]]></element>
     </page>
     <page>
         <url>http://demo.guru99.com/Agile_Project/Agi_V1/</url>
-        <element><![CDATA[<input name="btnLogin" value="LOGIN" type="submit">]]></element>
-        <element><![CDATA[<input name="btnReset" value="RESET" type="reset">]]></element>
+        <element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[1]]]></element>
+        <element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[2]]]></element>
     </page>
 </consistency>

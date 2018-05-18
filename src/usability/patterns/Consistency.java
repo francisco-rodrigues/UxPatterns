@@ -57,6 +57,7 @@ public class Consistency {
 
                 addXpath(elementContent);
                 System.out.println(elementContent.toString());
+                System.out.println();
 
 
             }
@@ -67,9 +68,9 @@ public class Consistency {
             ioe.printStackTrace();
         }
 
-
-
         return 0;
     }
 
+
+    
 }

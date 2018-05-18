@@ -1,0 +1,10 @@
+<sevenplustwo>
+    <page>
+        <url>http://demo.guru99.com/</url>
+        <menu><![CDATA[<input name="btnLogin" value="Submit" type="submit">]]></menu>
+    </page>
+    <page>
+        <url>http://demo.guru99.com/Agile_Project/Agi_V1/</url>
+        <menu><![CDATA[<input name="btnLogin" value="LOGIN" type="submit">]]></menu>
+    </page>
+</sevenplustwo>

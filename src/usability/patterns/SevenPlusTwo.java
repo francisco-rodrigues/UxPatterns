@@ -47,7 +47,7 @@ public class SevenPlusTwo {
                 System.out.println(testUrls.toString());
 
                 Element menu = page.getChild("menu");
-                String menuItemContent = new String();
+                String menuItemContent;
                 menuItemContent = menu.getText();
 
 

@@ -1,24 +1,35 @@
 package usability.patterns;
 
+import java.sql.Driver;
 import java.util.List;
 
 
+import auxiliary.DriverHandler;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.openqa.selenium.WebElement;
 
 import java.io.*;
-import java.util.*;
 
 
 import java.util.ArrayList;
 
 public class Consistency {
 
+    String pathname = new String();
+
     List<String> testUrls = new ArrayList<String>();
     List<List<String>> testXpaths = new ArrayList<List<String>>();
-    List<WebElement> testElems = new ArrayList<WebElement>();
+    List<List<WebElement>> testElems = new ArrayList<List<WebElement>>();
 
+
+    public Consistency() {
+        this.pathname = "resources/consistency.xml";
+    }
+
+    public Consistency(String pathname) {
+        this.pathname = pathname;
+    }
 
     private void addUrl(String url){
         testUrls.add(url);
@@ -31,7 +42,7 @@ public class Consistency {
     public int parseConfigs(){
 
         try {
-            File inputFile = new File("resources/consistency.xml");
+            File inputFile = new File(this.pathname);
             SAXBuilder saxBuilder = new SAXBuilder();
             Document document = saxBuilder.build(inputFile);
             System.out.println("Root element :" + document.getRootElement().getName());
@@ -71,6 +82,23 @@ public class Consistency {
         return 0;
     }
 
+    public void fillElementList(){
+
+        for (int i=0; i < testXpaths.size(); i++){
+
+            List<WebElement> WeList = new ArrayList<>();
+            for(int j=0; j<testXpaths.get(i).size(); j++){
+
+                DriverHandler.getDriver().get(testUrls.get(i));
+                WeList.add(DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j)));
+            }
+
+            testElems.add(WeList);
+        }
+
+        return;
+    }
 
     
+
 }

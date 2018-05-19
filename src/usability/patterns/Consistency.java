@@ -20,7 +20,6 @@ public class Consistency {
 
     List<String> testUrls = new ArrayList<String>();
     List<List<String>> testXpaths = new ArrayList<List<String>>();
-    List<List<WebElement>> testElems = new ArrayList<List<WebElement>>();
 
 
     public Consistency() {
@@ -82,23 +81,28 @@ public class Consistency {
         return 0;
     }
 
-    public void fillElementList(){
 
-        for (int i=0; i < testXpaths.size(); i++){
+    public void run(){
 
-            List<WebElement> WeList = new ArrayList<>();
-            for(int j=0; j<testXpaths.get(i).size(); j++){
+        this.parseConfigs();
 
-                DriverHandler.getDriver().get(testUrls.get(i));
-                WeList.add(DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j)));
-            }
+        DriverHandler.getDriver().get(testUrls.get(0));
+        System.out.println(testUrls.get(0));
+        WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(0).get(0));
+        System.out.println(elem.getAttribute("name"));
 
-            testElems.add(WeList);
-        }
+        System.out.println("begin");
 
-        return;
+        String s1 = elem.getCssValue("font-weight");
+        String s2 = elem.getCssValue("background.clip");
+
+        System.out.println(s1);
+        System.out.println(s2);
+        System.out.println(s1);
+
+        System.out.println("end");
+
+
     }
-
-    
 
 }

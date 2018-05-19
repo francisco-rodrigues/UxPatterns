@@ -31,8 +31,10 @@ public class Main {
 
 
         Consistency consistency = new Consistency();
-        consistency.parseConfigs();
-        consistency.fillElementList();
+        consistency.run();
+        DriverHandler.getDriver().quit();
+//        consistency.parseConfigs();
+//        consistency.fillElementList();
 //
 //        SevenPlusTwo spt = new SevenPlusTwo();
 //        spt.parseConfigs();

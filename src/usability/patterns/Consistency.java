@@ -1,7 +1,7 @@
 package usability.patterns;
 
-import java.sql.Driver;
 import java.util.List;
+import java.io.*;
 
 
 import auxiliary.DriverHandler;
@@ -38,7 +38,7 @@ public class Consistency {
         testXpaths.add(xpath);
     }
 
-    public int parseConfigs(){
+    private int parseConfigs(){
 
         try {
             File inputFile = new File(this.pathname);
@@ -81,27 +81,70 @@ public class Consistency {
         return 0;
     }
 
+    private List<String> parseCssAttributes(){
+
+        ArrayList<String> attr = new ArrayList<>();
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader("resources/css.txt"));
+
+            String s;
+            while( (s = in.readLine()) != null){
+                attr.add(s);
+            }
+            in.close();
+
+        }catch (FileNotFoundException e){
+        }catch (IOException e){ }
+
+        return attr;
+    }
+
+    private List<String> getElementCSSValues(List<String> attributes, WebElement element){
+
+        ArrayList<String> values = new ArrayList<>();
+
+        for (int i =0; i< attributes.size(); i++){
+
+
+            values.add(element.getCssValue(attributes.get(i)));
+
+
+        }
+
+        return values;
+    }
+
+    private List<List<String>> getAllCssValues(List<String> attributes){
+
+        List<List<String>> allElemsCSS = new ArrayList<>();
+
+        for(int i=0; i<testUrls.size();i++){
+            for(int j=0; j<testXpaths.get(i).size(); j++) {
+
+                DriverHandler.getDriver().get(testUrls.get(i));
+                WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j));
+
+                allElemsCSS.add(getElementCSSValues(attributes, elem));
+            }
+        }
+
+        return allElemsCSS;
+    }
 
     public void run(){
 
         this.parseConfigs();
+        List<String> cssattr = this.parseCssAttributes();
 
-        DriverHandler.getDriver().get(testUrls.get(0));
-        System.out.println(testUrls.get(0));
-        WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(0).get(0));
-        System.out.println(elem.getAttribute("name"));
+        getAllCssValues(cssattr);
 
-        System.out.println("begin");
 
-        String s1 = elem.getCssValue("font-weight");
-        String s2 = elem.getCssValue("background.clip");
-
-        System.out.println(s1);
-        System.out.println(s2);
-        System.out.println(s1);
-
-        System.out.println("end");
-
+//        DriverHandler.getDriver().get(testUrls.get(0));
+//        WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(0).get(0));
+//
+//
+//        List<String> elemCSS = this.getElementCSSValues(cssattr, elem);
 
     }
 

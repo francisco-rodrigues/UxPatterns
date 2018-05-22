@@ -5,8 +5,11 @@ import java.io.*;
 
 
 import auxiliary.DriverHandler;
+import javafx.beans.binding.BooleanExpression;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
 import java.io.*;
@@ -21,6 +24,11 @@ public class Consistency {
     List<String> testUrls = new ArrayList<String>();
     List<List<String>> testXpaths = new ArrayList<List<String>>();
 
+    private List<List<String>> elementsCss = new ArrayList<>();
+    private List<Dimension> elementsSize = new ArrayList<>();
+    private List<Point> elementsLocation = new ArrayList<>();
+
+
 
     public Consistency() {
         this.pathname = "resources/consistency.xml";
@@ -30,12 +38,26 @@ public class Consistency {
         this.pathname = pathname;
     }
 
+
+
     private void addUrl(String url){
         testUrls.add(url);
     }
 
     private void addXpath(List<String> xpath){
         testXpaths.add(xpath);
+    }
+
+    private void setElementsSize(List<Dimension> elementsSize) {
+        this.elementsSize = elementsSize;
+    }
+
+    private void setElementsCss(List<List<String>> elementsCss) {
+        this.elementsCss = elementsCss;
+    }
+
+    private void setElementsLocation(List<Point> elementsLocation) {
+        this.elementsLocation = elementsLocation;
     }
 
     private int parseConfigs(){
@@ -81,6 +103,8 @@ public class Consistency {
         return 0;
     }
 
+
+
     private List<String> parseCssAttributes(){
 
         ArrayList<String> attr = new ArrayList<>();
@@ -115,9 +139,23 @@ public class Consistency {
         return values;
     }
 
-    private List<List<String>> getAllCssValues(List<String> attributes){
+    private void printAttributes(List<String> attributes, List<Integer> indexes){
+
+        for(int i=0; i<indexes.size(); i++){
+
+            System.out.println(attributes.get(indexes.get(i)));
+
+        }
+
+    }
+
+
+
+    private void fetchElementsData(List<String> attributes){
 
         List<List<String>> allElemsCSS = new ArrayList<>();
+        List<Dimension> sizes = new ArrayList<>();
+        List<Point> locations = new ArrayList<>();
 
         for(int i=0; i<testUrls.size();i++){
             for(int j=0; j<testXpaths.get(i).size(); j++) {
@@ -125,23 +163,77 @@ public class Consistency {
                 DriverHandler.getDriver().get(testUrls.get(i));
                 WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j));
 
+
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
+                sizes.add(elem.getSize());
+                locations.add(elem.getLocation());
             }
         }
 
-        return allElemsCSS;
+        setElementsCss(allElemsCSS);
+        setElementsSize(sizes);
+        setElementsLocation(locations);
     }
+
+
+
+    private List<Integer> compareCssValues(List<String> pivot, List<String> elem){
+
+        ArrayList<Integer> diffIndexes = new ArrayList<>();
+
+
+        for(int i=0; i<pivot.size();i++){
+            if (pivot.get(i).equals(elem.get(i))){
+
+            }else {diffIndexes.add(i);}
+        }
+        System.out.println(diffIndexes.size() + "/" + pivot.size() + " Css values differ");
+        return diffIndexes;
+    }
+
+    private float sizeRatio(Dimension elem1, Dimension elem2){
+
+        float elem1area, elem2area;
+        float res;
+
+        System.out.println(elem1);
+        System.out.println(elem2);
+
+        elem1area = elem1.getHeight() * elem1.getWidth();
+        System.out.println(elem1area);
+        elem2area = elem2.getHeight() * elem2.getWidth();
+        System.out.println(elem2area);
+
+        res = elem1area / elem2area;
+        return res;
+
+
+    }
+
+
+
+
+
+
 
     public void run(){
 
         this.parseConfigs();
-        List<String> cssattr = this.parseCssAttributes();
 
-        getAllCssValues(cssattr);
+        List<String> cssattr = this.parseCssAttributes();
+        fetchElementsData(cssattr);
+
+
+        System.out.println();
+        System.out.println(elementsLocation);
+        System.out.println(DriverHandler.getDriver().);
+        //printAttributes(cssattr, compareCssValues(elementsCss.get(0), elementsCss.get(1)));
+
 
 
 //        DriverHandler.getDriver().get(testUrls.get(0));
 //        WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(0).get(0));
+//
 //
 //
 //        List<String> elemCSS = this.getElementCSSValues(cssattr, elem);

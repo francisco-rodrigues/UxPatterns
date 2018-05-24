@@ -162,7 +162,7 @@ public class Consistency {
 
                 DriverHandler.getDriver().get(testUrls.get(i));
                 WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j));
-
+                
 
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());
@@ -188,6 +188,7 @@ public class Consistency {
             }else {diffIndexes.add(i);}
         }
         System.out.println(diffIndexes.size() + "/" + pivot.size() + " Css values differ");
+        System.out.println();
         return diffIndexes;
     }
 
@@ -225,9 +226,14 @@ public class Consistency {
 
 
         System.out.println();
+        System.out.println("CSS: ");
+        printAttributes(cssattr, compareCssValues(elementsCss.get(0), elementsCss.get(1)));
+        System.out.println();
+        System.out.println("Position: ");
         System.out.println(elementsLocation);
-        System.out.println(DriverHandler.getDriver().);
-        //printAttributes(cssattr, compareCssValues(elementsCss.get(0), elementsCss.get(1)));
+        System.out.println();
+        System.out.println("Size: ");
+        System.out.println(sizeRatio(elementsSize.get(0), elementsSize.get(1)));
 
 
 

@@ -23,6 +23,10 @@ public class Consistency {
 
     List<String> testUrls = new ArrayList<String>();
     List<List<String>> testXpaths = new ArrayList<List<String>>();
+    List<List<String>> testNames = new ArrayList<List<String>>();
+    List<List<String>> testIds = new ArrayList<List<String>>();
+    List<List<String>> testClasses = new ArrayList<List<String>>();
+
 
     private List<List<String>> elementsCss = new ArrayList<>();
     private List<Dimension> elementsSize = new ArrayList<>();
@@ -74,10 +78,35 @@ public class Consistency {
             System.out.println("----------------------------");
 
             for (int temp = 0; temp < pageList.size(); temp++) {
+
                 Element page = pageList.get(temp);
 
                 addUrl(page.getChildText("url"));
                 System.out.println(testUrls.toString());
+
+                List<Element> nameList = page.getChildren("name");
+                List<String> nameContent = new ArrayList<String>();
+                for(int i=0; i < nameList.size(); i++){
+
+                    nameContent.add(nameList.get(i).getText());
+
+                }
+
+                List<Element> idList = page.getChildren("id");
+                List<String> idContent = new ArrayList<String>();
+                for(int i=0; i < idList.size(); i++){
+
+                    idContent.add(idList.get(i).getText());
+
+                }
+
+                List<Element> classList = page.getChildren("class");
+                List<String> classContent = new ArrayList<String>();
+                for(int i=0; i < classList.size(); i++){
+
+                    classContent.add(classList.get(i).getText());
+
+                }
 
                 List<Element> elementList = page.getChildren("element");
                 List<String> elementContent = new ArrayList<String>();
@@ -88,12 +117,21 @@ public class Consistency {
                 }
 
                 addXpath(elementContent);
+                testNames.add(nameContent);
+                testIds.add(idContent);
+                testClasses.add(classContent);
                 System.out.println(elementContent.toString());
+                System.out.println(nameContent.toString());
+                System.out.println(idContent.toString());
+                System.out.println(classContent.toString());
                 System.out.println();
 
 
             }
             System.out.println(testXpaths.toString());
+            System.out.println(testNames.toString());
+            System.out.println(testIds.toString());
+            System.out.println(testClasses.toString());
         } catch(JDOMException e) {
             e.printStackTrace();
         } catch(IOException ioe) {
@@ -158,16 +196,54 @@ public class Consistency {
         List<Point> locations = new ArrayList<>();
 
         for(int i=0; i<testUrls.size();i++){
+
+            DriverHandler.getDriver().get(testUrls.get(i));
+
             for(int j=0; j<testXpaths.get(i).size(); j++) {
 
-                DriverHandler.getDriver().get(testUrls.get(i));
+
                 WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j));
-                
+
 
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());
                 locations.add(elem.getLocation());
             }
+
+            for(int j=0; j<testNames.get(i).size(); j++) {
+
+
+                WebElement elem = DriverHandler.getDriver().findElementByName(testNames.get(i).get(j));
+
+
+                allElemsCSS.add(getElementCSSValues(attributes, elem));
+                sizes.add(elem.getSize());
+                locations.add(elem.getLocation());
+            }
+
+            for(int j=0; j<testIds.get(i).size(); j++) {
+
+
+                WebElement elem = DriverHandler.getDriver().findElementById(testIds.get(i).get(j));
+
+
+                allElemsCSS.add(getElementCSSValues(attributes, elem));
+                sizes.add(elem.getSize());
+                locations.add(elem.getLocation());
+            }
+
+            for(int j=0; j<testClasses.get(i).size(); j++) {
+
+
+                WebElement elem = DriverHandler.getDriver().findElementByClassName(testClasses.get(i).get(j));
+
+
+                allElemsCSS.add(getElementCSSValues(attributes, elem));
+                sizes.add(elem.getSize());
+                locations.add(elem.getLocation());
+            }
+
+
         }
 
         setElementsCss(allElemsCSS);

@@ -34,6 +34,7 @@ public class Consistency {
 
 
 
+
     public Consistency() {
         this.pathname = "resources/consistency.xml";
     }
@@ -311,6 +312,40 @@ public class Consistency {
         System.out.println("Size: ");
         System.out.println(sizeRatio(elementsSize.get(0), elementsSize.get(1)));
 
+
+
+//        DriverHandler.getDriver().get(testUrls.get(0));
+//        WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(0).get(0));
+//
+//
+//
+//        List<String> elemCSS = this.getElementCSSValues(cssattr, elem);
+
+    }
+
+    public void run(boolean css, boolean position, boolean size){
+
+        this.parseConfigs();
+
+        List<String> cssattr = this.parseCssAttributes();
+        fetchElementsData(cssattr);
+
+
+        System.out.println();
+        if(css) {
+            System.out.println("CSS: ");
+            printAttributes(cssattr, compareCssValues(elementsCss.get(0), elementsCss.get(1)));
+            System.out.println();
+        }
+        if(position) {
+            System.out.println("Position: ");
+            System.out.println(elementsLocation);
+            System.out.println();
+        }
+        if(size) {
+            System.out.println("Size: ");
+            System.out.println(sizeRatio(elementsSize.get(0), elementsSize.get(1)));
+        }
 
 
 //        DriverHandler.getDriver().get(testUrls.get(0));

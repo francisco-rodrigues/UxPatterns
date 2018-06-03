@@ -1,4 +1,5 @@
 package com.company;
+import auxiliary.ConsistencyForm;
 import auxiliary.DriverHandler;
 import auxiliary.Gui;
 import auxiliary.Utils;
@@ -6,6 +7,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import usability.patterns.Consistency;
+import usability.patterns.ErrorPrevention;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,28 +23,28 @@ public class Main {
 //        DriverHandler dh = new DriverHandler();
 
 
-/*        ChromeDriver driver = new ChromeDriver();
-        driver.get("http://demo.guru99.com/");
-        WebElement elem1 = driver.findElementByXPath("//input[@name='emailid']");
-        elem1.sendKeys("abc@gmail.com");
 
-        WebElement button = driver.findElement(By.xpath("//input[@name='btnLogin']"));
-        Utils.getElemEnd(button);
-        System.out.println();
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new Gui().setVisible(true);
+//            }
+//        });
 
+        JFrame frame = new ConsistencyForm();
+        //JFrame frame = new JFrame("ConsistencyForm");
+        frame.setContentPane(((ConsistencyForm) frame).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
-        button.click();*/
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Gui().setVisible(true);
-            }
-        });
 //        Consistency consistency = new Consistency();
 //        consistency.run();
 //        DriverHandler.getDriver().quit();
 //
+
+//        ErrorPrevention ep = new ErrorPrevention();
+//        ep.parseConfigs();
 //
 //        SevenPlusTwo spt = new SevenPlusTwo();
 //        spt.parseConfigs();

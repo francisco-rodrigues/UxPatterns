@@ -292,8 +292,6 @@ public class Consistency {
 
 
 
-
-
     public void run(){
 
         this.parseConfigs();

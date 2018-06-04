@@ -17,6 +17,8 @@ import java.io.*;
 
 import java.util.ArrayList;
 
+import java.lang.Math.*;
+
 public class Consistency {
 
     String pathname = new String();
@@ -269,18 +271,24 @@ public class Consistency {
         return diffIndexes;
     }
 
+    private int comparePosition(Point pivot, Point point1, boolean horizontalAlignment) {
+
+        if(horizontalAlignment){
+            return Math.abs(pivot.getY() - point1.getY());
+        }else return Math.abs(pivot.getX() - point1.getX());
+
+    }
+
     private float sizeRatio(Dimension elem1, Dimension elem2){
 
         float elem1area, elem2area;
         float res;
 
-        System.out.println(elem1);
-        System.out.println(elem2);
 
         elem1area = elem1.getHeight() * elem1.getWidth();
-        System.out.println(elem1area);
+
         elem2area = elem2.getHeight() * elem2.getWidth();
-        System.out.println(elem2area);
+
 
         res = elem1area / elem2area;
         return res;
@@ -288,6 +296,15 @@ public class Consistency {
 
     }
 
+    private Dimension sizeDiff(Dimension pivot, Dimension dimension1) {
+
+
+        int height = pivot.getHeight() - dimension1.getHeight();
+        int width = pivot.getWidth() - dimension1.getWidth();
+
+        return new Dimension(width,height);
+
+    }
 
     private void runTestCss(int pivot, int cssPercentage, List<String> attributes){
 
@@ -309,6 +326,43 @@ public class Consistency {
         }
 
     }
+
+    private void runTestPosition(int pivot, boolean horizontalAlignment, int positionOffset) {
+
+        int index = pivot -1;
+
+        for(int i=0; i<elementsLocation.size();i++){
+            if(i != index){
+                int diff = comparePosition(elementsLocation.get(index), elementsLocation.get(i), horizontalAlignment);
+                if(diff > positionOffset){
+                    System.out.println("Elements "+ (index+1) + " and " + (i+1) + " are NOT aligned " + diff + " units apart");
+                }else System.out.println("Elements "+ (index+1) + " and " + (i+1) + " are aligned");
+
+                System.out.println();
+            }
+        }
+
+    }
+
+    private void runTestSize(int pivot, boolean areaRatio, boolean dimensionDiff){
+
+        int index = pivot -1;
+
+        for(int i=0; i<elementsSize.size();i++) {
+            if (i != index) {
+                if(areaRatio){
+                    System.out.println("Area ratio between elements " + (index+1) + " and " + (i+1) + " is " + sizeRatio(elementsSize.get(index), elementsSize.get(i)));
+                }
+                if(dimensionDiff){
+                    System.out.println("Height difference between elements " + (index+1) + " and " + (i+1) + " is " + sizeDiff(elementsSize.get(index), elementsSize.get(i)).getHeight());
+                    System.out.println("Width difference between elements " + (index+1) + " and " + (i+1) + " is " + sizeDiff(elementsSize.get(index), elementsSize.get(i)).getWidth());
+                }
+                System.out.println();
+            }
+        }
+    }
+
+
 
 
     public void run(){
@@ -356,12 +410,14 @@ public class Consistency {
         }
         if(position) {
             System.out.println("Position: ");
-            System.out.println(elementsLocation);
+            //System.out.println(elementsLocation);
+            runTestPosition(pivot, horizontalAlignment, positionOffset);
             System.out.println();
         }
         if(size) {
             System.out.println("Size: ");
-            System.out.println(sizeRatio(elementsSize.get(0), elementsSize.get(1)));
+            runTestSize(pivot, areaRatio, dimensionDiff);
+            //System.out.println(sizeRatio(elementsSize.get(0), elementsSize.get(1)));
         }
 
 
@@ -373,5 +429,7 @@ public class Consistency {
 //        List<String> elemCSS = this.getElementCSSValues(cssattr, elem);
 
     }
+
+
 
 }

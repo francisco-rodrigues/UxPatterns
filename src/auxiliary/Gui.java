@@ -47,7 +47,7 @@ public class Gui extends JFrame {
                 Gui.super.dispose();
                 DriverHandler dh = new DriverHandler();
                 Consistency consistency = new Consistency();
-                consistency.run(cssFlag, positionFlag, sizeFlag);
+                //consistency.run(cssFlag, positionFlag, sizeFlag);
                 DriverHandler.getDriver().quit();
             }
         });

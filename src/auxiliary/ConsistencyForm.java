@@ -91,13 +91,12 @@ public class ConsistencyForm extends JFrame {
                         "./resources/chromedriver.exe");
                 dispose();
                 DriverHandler dh = new DriverHandler();
-                Consistency consistency = new Consistency();
-                consistency.run(cssFlag, positionFlag, sizeFlag);
+                Consistency consistency = new Consistency(pathname);
+                consistency.run(cssFlag, positionFlag, sizeFlag, pivot, cssPercentage, horizontalAlignment, positionOffset, areaRatio, dimensionDiff);
                 DriverHandler.getDriver().quit();
             }
         });
     }
-
 
 
     {
@@ -124,7 +123,7 @@ public class ConsistencyForm extends JFrame {
         label1.setText("Path");
         panel1.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         consistencyXmlTextField = new JTextField();
-        consistencyXmlTextField.setText("consistency.xml");
+        consistencyXmlTextField.setText("resources/consistency.xml");
         panel1.add(consistencyXmlTextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1, true, false));
@@ -174,6 +173,7 @@ public class ConsistencyForm extends JFrame {
         panel4.add(label4, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         a1TextField = new JTextField();
         a1TextField.setText("1");
+        a1TextField.setToolTipText("Parse order by type is: Xpath, Name, Id, Class.  Same type elements are parsed in the same order. ");
         panel4.add(a1TextField, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(2, 4, new Insets(0, 0, 0, 0), -1, -1));

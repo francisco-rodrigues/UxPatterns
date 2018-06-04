@@ -1,21 +1,21 @@
 <consistency>
-    <!--<page>-->
-        <!--<url>http://demo.guru99.com/</url>-->
-        <!--<name>btnLogin</name>-->
+    <page>
+        <url>http://demo.guru99.com/</url>
+        <name>btnLogin</name>
         <!--<id>testeid</id>>-->
         <!--<class>heading2</class>>-->
         <!--<element><![CDATA[/html/body/form/table/tbody/tr[6]/td[2]/input]]></element>-->
-    <!--</page>-->
-    <!--<page>-->
-        <!--<url>http://demo.guru99.com/Agile_Project/Agi_V1/</url>-->
-        <!--<element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[1]]]></element>-->
-        <!--<element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[2]]]></element>-->
-    <!--</page>-->
-    <page>
-        <url>https://www.facebook.com/</url>
-        <name>firstname</name>
-        <name>lastname</name>
-        <id>u_0_h</id>
-        <id>u_0_o</id>
     </page>
+    <page>
+        <url>http://demo.guru99.com/Agile_Project/Agi_V1/</url>
+        <element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[1]]]></element>
+        <element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[2]]]></element>
+    </page>
+    <!--<page>-->
+        <!--<url>https://www.facebook.com/</url>-->
+        <!--<name>firstname</name>-->
+        <!--<name>lastname</name>-->
+        <!--<id>u_0_h</id>-->
+        <!--<id>u_0_o</id>-->
+    <!--</page>-->
 </consistency>

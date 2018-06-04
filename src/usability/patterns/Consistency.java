@@ -185,7 +185,7 @@ public class Consistency {
             System.out.println(attributes.get(indexes.get(i)));
 
         }
-
+        System.out.println();
     }
 
 
@@ -264,7 +264,7 @@ public class Consistency {
 
             }else {diffIndexes.add(i);}
         }
-        System.out.println(diffIndexes.size() + "/" + pivot.size() + " Css values differ");
+        System.out.println(diffIndexes.size() + "/" + pivot.size() + " Css values are different");
         System.out.println();
         return diffIndexes;
     }
@@ -289,7 +289,26 @@ public class Consistency {
     }
 
 
+    private void runTestCss(int pivot, int cssPercentage, List<String> attributes){
 
+        int index = pivot -1;
+
+        for (int i=0; i <elementsCss.size();i++){
+            if(i != index){
+                System.out.println("Pivot(" + (index+1) + ") and Element " + (i+1));
+                List<Integer> cssindex =  compareCssValues(elementsCss.get(index), elementsCss.get(i));
+                float realPercentage = ((float)cssindex.size()/(float)attributes.size()) * 100;
+
+                if((100-realPercentage) > cssPercentage){
+                    System.out.println("CSS is similar.");
+                }else{
+                    printAttributes(attributes, cssindex);
+                }
+
+            }
+        }
+
+    }
 
 
     public void run(){
@@ -321,7 +340,7 @@ public class Consistency {
 
     }
 
-    public void run(boolean css, boolean position, boolean size){
+    public void run(boolean css, boolean position, boolean size, int pivot, int cssPercentage, boolean horizontalAlignment, int positionOffset, boolean areaRatio, boolean dimensionDiff){
 
         this.parseConfigs();
 
@@ -332,7 +351,7 @@ public class Consistency {
         System.out.println();
         if(css) {
             System.out.println("CSS: ");
-            printAttributes(cssattr, compareCssValues(elementsCss.get(0), elementsCss.get(1)));
+            runTestCss(pivot, cssPercentage, cssattr);
             System.out.println();
         }
         if(position) {

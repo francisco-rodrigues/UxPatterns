@@ -31,7 +31,7 @@
               </grid>
             </constraints>
             <properties>
-              <text value="consistency.xml"/>
+              <text value="resources/consistency.xml"/>
             </properties>
           </component>
         </children>
@@ -148,6 +148,7 @@
                 </constraints>
                 <properties>
                   <text value="1"/>
+                  <toolTipText value="Parse order by type is: Xpath, Name, Id, Class.  Same type elements are parsed in the same order. "/>
                 </properties>
               </component>
             </children>

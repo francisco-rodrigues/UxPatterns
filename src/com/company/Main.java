@@ -17,10 +17,10 @@ public class Main {
     public static void main(String[] args) {
 
 
-//        System.setProperty("webdriver.chrome.driver",
-//                "./resources/chromedriver.exe");
-//
-//        DriverHandler dh = new DriverHandler();
+        System.setProperty("webdriver.chrome.driver",
+                "./resources/chromedriver.exe");
+
+        DriverHandler dh = new DriverHandler();
 
 
 
@@ -31,20 +31,22 @@ public class Main {
 //            }
 //        });
 
-        JFrame frame = new ConsistencyForm();
-        //JFrame frame = new JFrame("ConsistencyForm");
-        frame.setContentPane(((ConsistencyForm) frame).rootPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+//        JFrame frame = new ConsistencyForm();
+//        //JFrame frame = new JFrame("ConsistencyForm");
+//        frame.setContentPane(((ConsistencyForm) frame).rootPanel);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
 
 //        Consistency consistency = new Consistency();
 //        consistency.run();
 //        DriverHandler.getDriver().quit();
 //
 
-//        ErrorPrevention ep = new ErrorPrevention();
-//        ep.parseConfigs();
+        ErrorPrevention ep = new ErrorPrevention();
+        ep.parseConfigs();
+        ep.fetchElementsData();
+        DriverHandler.getDriver().quit();
 //
 //        SevenPlusTwo spt = new SevenPlusTwo();
 //        spt.parseConfigs();

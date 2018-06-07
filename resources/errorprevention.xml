@@ -2,5 +2,11 @@
     <tooltip>
         <url>http://demo.guru99.com/</url>
         <element><![CDATA[//*[@id="site-name"]/a]]></element>
+        <element><![CDATA[/html/body/form/table/tbody/tr[5]/td[2]/input]]></element>
+        <name>emailid</name>
+    </tooltip>
+    <tooltip>
+        <url>http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/</url>
+        <element><![CDATA[//*[@id="site-name"]/a]]></element>
     </tooltip>
 </errprev>

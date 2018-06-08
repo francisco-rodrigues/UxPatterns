@@ -2,11 +2,24 @@
     <tooltip>
         <url>http://demo.guru99.com/</url>
         <element><![CDATA[//*[@id="site-name"]/a]]></element>
-        <element><![CDATA[/html/body/form/table/tbody/tr[5]/td[2]/input]]></element>
         <name>emailid</name>
     </tooltip>
     <tooltip>
         <url>http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/</url>
-        <element><![CDATA[//*[@id="site-name"]/a]]></element>
+        <element><![CDATA[//*[@id="post-108"]/p[5]/a[1]]]></element>
+    </tooltip>
+    <tooltip>
+        <url>https://getbootstrap.com/docs/4.1/components/tooltips/</url>
+        <element><![CDATA[/html/body/div/div/main/div[4]/div/button[1]]]></element>
+    </tooltip>
+    <tooltip>
+        <url>https://alloyui.com/examples/tooltip</url>
+        <element><![CDATA[//button[@id="myTooltip"]]]></element>
+    </tooltip>
+    <tooltip>
+        <url>https://alloyui.com/examples/tooltip/delegate</url>
+        <element><![CDATA[//*[@id="myTooltipDelegate"]/li[1]]]></element>
+        <element><![CDATA[//*[@id="myTooltipDelegate"]/li[3]]]></element>
+        <element><![CDATA[//*[@id="myTooltipDelegate"]/li[2]]]></element>
     </tooltip>
 </errprev>

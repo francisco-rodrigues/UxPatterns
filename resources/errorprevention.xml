@@ -2,24 +2,34 @@
     <tooltip>
         <url>http://demo.guru99.com/</url>
         <element><![CDATA[//*[@id="site-name"]/a]]></element>
-        <name>emailid</name>
     </tooltip>
     <tooltip>
-        <url>http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/</url>
-        <element><![CDATA[//*[@id="post-108"]/p[5]/a[1]]]></element>
+        <url>https://profile.theguardian.com/register?returnUrl=https%3A%2F%2Fwww.theguardian.com%2Fus&amp;signInType=classic</url>
+        <name>firstName</name>
+        <name>lastName</name>
+        <name>email</name>
+        <name>password</name>
     </tooltip>
-    <tooltip>
-        <url>https://getbootstrap.com/docs/4.1/components/tooltips/</url>
-        <element><![CDATA[/html/body/div/div/main/div[4]/div/button[1]]]></element>
-    </tooltip>
-    <tooltip>
-        <url>https://alloyui.com/examples/tooltip</url>
-        <element><![CDATA[//button[@id="myTooltip"]]]></element>
-    </tooltip>
-    <tooltip>
-        <url>https://alloyui.com/examples/tooltip/delegate</url>
-        <element><![CDATA[//*[@id="myTooltipDelegate"]/li[1]]]></element>
-        <element><![CDATA[//*[@id="myTooltipDelegate"]/li[3]]]></element>
-        <element><![CDATA[//*[@id="myTooltipDelegate"]/li[2]]]></element>
-    </tooltip>
+    <!--<textbox>-->
+        <!--<url>http://demo.guru99.com/</url>-->
+        <!--<name>emailid</name>-->
+    <!--</textbox>-->
+    <!--<tooltip>-->
+        <!--<url>http://bassistance.de/jquery-plugins/jquery-plugin-tooltip/</url>-->
+        <!--<element><![CDATA[//*[@id="post-108"]/p[5]/a[1]]]></element>-->
+    <!--</tooltip>-->
+    <!--<tooltip>-->
+        <!--<url>https://getbootstrap.com/docs/4.1/components/tooltips/</url>-->
+        <!--<element><![CDATA[/html/body/div/div/main/div[4]/div/button[1]]]></element>-->
+    <!--</tooltip>-->
+    <!--<tooltip>-->
+        <!--<url>https://alloyui.com/examples/tooltip</url>-->
+        <!--<element><![CDATA[//button[@id="myTooltip"]]]></element>-->
+    <!--</tooltip>-->
+    <!--<tooltip>-->
+        <!--<url>https://alloyui.com/examples/tooltip/delegate</url>-->
+        <!--<element><![CDATA[//*[@id="myTooltipDelegate"]/li[1]]]></element>-->
+        <!--<element><![CDATA[//*[@id="myTooltipDelegate"]/li[3]]]></element>-->
+        <!--<element><![CDATA[//*[@id="myTooltipDelegate"]/li[2]]]></element>-->
+    <!--</tooltip>-->
 </errprev>

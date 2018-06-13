@@ -206,7 +206,7 @@ public class Consistency {
 
 
                 WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j));
-
+                
 
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());

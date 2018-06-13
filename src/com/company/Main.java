@@ -45,7 +45,7 @@ public class Main {
 
         ErrorPrevention ep = new ErrorPrevention();
         ep.parseConfigs();
-        ep.fetchElementsData();
+        ep.findTooltips();
         DriverHandler.getDriver().quit();
 //
 //        SevenPlusTwo spt = new SevenPlusTwo();

@@ -25,6 +25,12 @@ public class ErrorPrevention {
     List<List<String>> tooltipIds = new ArrayList<List<String>>();
     List<List<String>> tooltipClasses = new ArrayList<List<String>>();
 
+    List<String> textboxUrls = new ArrayList<String>();
+    List<List<String>> textboxXpaths = new ArrayList<List<String>>();
+    List<List<String>> textboxNames = new ArrayList<List<String>>();
+    List<List<String>> textboxIds = new ArrayList<List<String>>();
+    List<List<String>> textboxClasses = new ArrayList<List<String>>();
+
 
     public int parseConfigs() {
 
@@ -88,8 +94,8 @@ public class ErrorPrevention {
 
             //-----------------------------------------------------------------------------------------------//
 
-/*
-            pageList = classElement.getChildren("date");
+
+            pageList = classElement.getChildren("textbox");
             System.out.println(pageList.size());
             System.out.println("----------------------------");
 
@@ -97,12 +103,12 @@ public class ErrorPrevention {
 
                 Element page = pageList.get(temp);
 
-                addUrl(page.getChildText("url"));
-                System.out.println(testUrls.toString());
+                textboxUrls.add(page.getChildText("url"));
+                System.out.println(textboxUrls.toString());
 
                 List<Element> nameList = page.getChildren("name");
                 List<String> nameContent = new ArrayList<String>();
-                for(int i=0; i < nameList.size(); i++){
+                for (int i = 0; i < nameList.size(); i++) {
 
                     nameContent.add(nameList.get(i).getText());
 
@@ -110,7 +116,7 @@ public class ErrorPrevention {
 
                 List<Element> idList = page.getChildren("id");
                 List<String> idContent = new ArrayList<String>();
-                for(int i=0; i < idList.size(); i++){
+                for (int i = 0; i < idList.size(); i++) {
 
                     idContent.add(idList.get(i).getText());
 
@@ -118,7 +124,7 @@ public class ErrorPrevention {
 
                 List<Element> classList = page.getChildren("class");
                 List<String> classContent = new ArrayList<String>();
-                for(int i=0; i < classList.size(); i++){
+                for (int i = 0; i < classList.size(); i++) {
 
                     classContent.add(classList.get(i).getText());
 
@@ -126,23 +132,30 @@ public class ErrorPrevention {
 
                 List<Element> elementList = page.getChildren("element");
                 List<String> elementContent = new ArrayList<String>();
-                for(int i=0; i < elementList.size(); i++){
+                for (int i = 0; i < elementList.size(); i++) {
 
                     elementContent.add(elementList.get(i).getText());
 
                 }
 
-                addXpath(elementContent);
-                testNames.add(nameContent);
-                testIds.add(idContent);
-                testClasses.add(classContent);
+                textboxXpaths.add(elementContent);
+                textboxNames.add(nameContent);
+                textboxIds.add(idContent);
+                textboxClasses.add(classContent);
 
                 System.out.println();
             }
-*/
+
 
             System.out.println(tooltipXpaths.toString());
             System.out.println(tooltipNames.toString());
+            System.out.println(tooltipIds.toString());
+            System.out.println(tooltipClasses.toString());
+
+            System.out.println(textboxXpaths.toString());
+            System.out.println(textboxNames.toString());
+            System.out.println(textboxIds.toString());
+            System.out.println(textboxClasses.toString());
         } catch (JDOMException e) {
             e.printStackTrace();
         } catch (IOException ioe) {
@@ -154,7 +167,7 @@ public class ErrorPrevention {
     }
 
 
-    public void fetchElementsData() {
+    public void findTooltips() {
 
 
         for (int i = 0; i < tooltipUrls.size(); i++) {
@@ -169,8 +182,23 @@ public class ErrorPrevention {
                 WebElement elem = DriverHandler.getDriver().findElementByXPath(tooltipXpaths.get(i).get(j));
 
 
-                System.out.println("Tooltip:");
                 String tooltip = elem.getAttribute("title");
+
+                String placeholder = elem.getAttribute("placeholder");
+
+                System.out.println();
+                System.out.println();
+                System.out.println("Placeholder:");
+
+                if(placeholder != null) {
+                    if (!placeholder.equals("")) {
+                        System.out.println("Placeholder exists with value: " + placeholder);
+                    } else System.out.println("No placeholder found");
+                }else System.out.println("No placeholder found");
+
+                System.out.println();
+                System.out.println("Tooltip:");
+
 
                 if (!tooltip.equals("")) {
                     System.out.println("Tooltip exists with the following text: " + tooltip);
@@ -233,6 +261,77 @@ public class ErrorPrevention {
                 WebElement elem = DriverHandler.getDriver().findElementByName(tooltipNames.get(i).get(j));
 
 
+                String tooltip = elem.getAttribute("title");
+
+
+                String placeholder = elem.getAttribute("placeholder");
+
+
+                System.out.println();
+                System.out.println();
+                System.out.println("Placeholder:");
+
+                if(placeholder != null) {
+                    if (!placeholder.equals("")) {
+                        System.out.println("Placeholder exists with value: " + placeholder);
+                    } else System.out.println("No placeholder found");
+                }else System.out.println("No placeholder found");
+
+                System.out.println();
+                System.out.println("Tooltip:");
+
+                if (!tooltip.equals("")) {
+                    System.out.println("Tooltip exists with the following text: " + tooltip);
+                } else {
+
+                    Action mouseOver = builder.moveToElement(elem).build();
+                    mouseOver.perform();
+
+                    try {
+                        tooltip = DriverHandler.getDriver().findElementById("tooltip").getText();
+                    } catch (NoSuchElementException e) {
+                        System.out.println("FAILED TO LOCATE");
+                    }
+
+                    if (!tooltip.equals("")) {
+                        System.out.println("Tooltip exists with the following text: " + tooltip);
+                    } else {
+
+                        try {
+                            tooltip = DriverHandler.getDriver().findElementByClassName("tooltip").getText();
+                        } catch (NoSuchElementException e) {
+                            System.out.println("FAILED TO LOCATE");
+                        }
+
+                        if (!tooltip.equals("")) {
+                            System.out.println("Tooltip exists with the following text: " + tooltip);
+                        } else {
+
+                            try {
+                                tooltip = DriverHandler.getDriver().findElementById("tooltiptext").getText();
+                            } catch (NoSuchElementException e) {
+                                System.out.println("FAILED TO LOCATE");
+                            }
+
+                            if (!tooltip.equals("")) {
+                                System.out.println("Tooltip exists with the following text: " + tooltip);
+                            } else {
+
+                                try {
+                                    tooltip = DriverHandler.getDriver().findElementByClassName("tooltiptext").getText();
+                                } catch (NoSuchElementException e) {
+                                    System.out.println("FAILED TO LOCATE");
+                                }
+                                if (!tooltip.equals("")) {
+                                    System.out.println("Tooltip exists with the following text: " + tooltip);
+                                } else {
+                                    System.out.println("A tooltip was not found");
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
             for (int j = 0; j < tooltipIds.get(i).size(); j++) {
@@ -241,6 +340,76 @@ public class ErrorPrevention {
                 WebElement elem = DriverHandler.getDriver().findElementById(tooltipIds.get(i).get(j));
 
 
+                String tooltip = elem.getAttribute("title");
+
+                String placeholder = elem.getAttribute("placeholder");
+
+
+                System.out.println();
+                System.out.println();
+                System.out.println("Placeholder:");
+
+                if(placeholder != null) {
+                    if (!placeholder.equals("")) {
+                        System.out.println("Placeholder exists with value: " + placeholder);
+                    } else System.out.println("No placeholder found");
+                }else System.out.println("No placeholder found");
+
+                System.out.println();
+                System.out.println("Tooltip:");
+
+                if (!tooltip.equals("")) {
+                    System.out.println("Tooltip exists with the following text: " + tooltip);
+                } else {
+
+                    Action mouseOver = builder.moveToElement(elem).build();
+                    mouseOver.perform();
+
+                    try {
+                        tooltip = DriverHandler.getDriver().findElementById("tooltip").getText();
+                    } catch (NoSuchElementException e) {
+                        System.out.println("FAILED TO LOCATE");
+                    }
+
+                    if (!tooltip.equals("")) {
+                        System.out.println("Tooltip exists with the following text: " + tooltip);
+                    } else {
+
+                        try {
+                            tooltip = DriverHandler.getDriver().findElementByClassName("tooltip").getText();
+                        } catch (NoSuchElementException e) {
+                            System.out.println("FAILED TO LOCATE");
+                        }
+
+                        if (!tooltip.equals("")) {
+                            System.out.println("Tooltip exists with the following text: " + tooltip);
+                        } else {
+
+                            try {
+                                tooltip = DriverHandler.getDriver().findElementById("tooltiptext").getText();
+                            } catch (NoSuchElementException e) {
+                                System.out.println("FAILED TO LOCATE");
+                            }
+
+                            if (!tooltip.equals("")) {
+                                System.out.println("Tooltip exists with the following text: " + tooltip);
+                            } else {
+
+                                try {
+                                    tooltip = DriverHandler.getDriver().findElementByClassName("tooltiptext").getText();
+                                } catch (NoSuchElementException e) {
+                                    System.out.println("FAILED TO LOCATE");
+                                }
+                                if (!tooltip.equals("")) {
+                                    System.out.println("Tooltip exists with the following text: " + tooltip);
+                                } else {
+                                    System.out.println("A tooltip was not found");
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
 
             for (int j = 0; j < tooltipClasses.get(i).size(); j++) {
@@ -248,6 +417,74 @@ public class ErrorPrevention {
 
                 WebElement elem = DriverHandler.getDriver().findElementByClassName(tooltipClasses.get(i).get(j));
 
+                String tooltip = elem.getAttribute("title");
+
+                String placeholder = elem.getAttribute("placeholder");
+
+
+                System.out.println();
+                System.out.println();
+                System.out.println("Placeholder:");
+
+                if(placeholder != null) {
+                    if (!placeholder.equals("")) {
+                        System.out.println("Placeholder exists with value: " + placeholder);
+                    } else System.out.println("No placeholder found");
+                }else System.out.println("No placeholder found");
+
+                System.out.println();
+                System.out.println("Tooltip:");
+                if (!tooltip.equals("")) {
+                    System.out.println("Tooltip exists with the following text: " + tooltip);
+                } else {
+
+                    Action mouseOver = builder.moveToElement(elem).build();
+                    mouseOver.perform();
+
+                    try {
+                        tooltip = DriverHandler.getDriver().findElementById("tooltip").getText();
+                    } catch (NoSuchElementException e) {
+                        System.out.println("FAILED TO LOCATE");
+                    }
+
+                    if (!tooltip.equals("")) {
+                        System.out.println("Tooltip exists with the following text: " + tooltip);
+                    } else {
+
+                        try {
+                            tooltip = DriverHandler.getDriver().findElementByClassName("tooltip").getText();
+                        } catch (NoSuchElementException e) {
+                            System.out.println("FAILED TO LOCATE");
+                        }
+
+                        if (!tooltip.equals("")) {
+                            System.out.println("Tooltip exists with the following text: " + tooltip);
+                        } else {
+
+                            try {
+                                tooltip = DriverHandler.getDriver().findElementById("tooltiptext").getText();
+                            } catch (NoSuchElementException e) {
+                                System.out.println("FAILED TO LOCATE");
+                            }
+
+                            if (!tooltip.equals("")) {
+                                System.out.println("Tooltip exists with the following text: " + tooltip);
+                            } else {
+
+                                try {
+                                    tooltip = DriverHandler.getDriver().findElementByClassName("tooltiptext").getText();
+                                } catch (NoSuchElementException e) {
+                                    System.out.println("FAILED TO LOCATE");
+                                }
+                                if (!tooltip.equals("")) {
+                                    System.out.println("Tooltip exists with the following text: " + tooltip);
+                                } else {
+                                    System.out.println("A tooltip was not found");
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
 

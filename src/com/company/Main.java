@@ -17,36 +17,29 @@ public class Main {
     public static void main(String[] args) {
 
 
-        System.setProperty("webdriver.chrome.driver",
-                "./resources/chromedriver.exe");
+//        System.setProperty("webdriver.chrome.driver",
+//                "./resources/chromedriver.exe");
+//
+//        DriverHandler dh = new DriverHandler();
 
-        DriverHandler dh = new DriverHandler();
 
 
 
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new Gui().setVisible(true);
-//            }
-//        });
-
-//        JFrame frame = new ConsistencyForm();
-//        //JFrame frame = new JFrame("ConsistencyForm");
-//        frame.setContentPane(((ConsistencyForm) frame).rootPanel);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
+        JFrame frame = new ConsistencyForm();
+        frame.setContentPane(((ConsistencyForm) frame).rootPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
 //        Consistency consistency = new Consistency();
 //        consistency.run();
 //        DriverHandler.getDriver().quit();
 //
-
-        ErrorPrevention ep = new ErrorPrevention();
-        ep.parseConfigs();
-        ep.findTooltips();
-        DriverHandler.getDriver().quit();
+//
+//        ErrorPrevention ep = new ErrorPrevention();
+//        ep.parseConfigs();
+//        ep.findTooltips();
+//        DriverHandler.getDriver().quit();
 //
 //        SevenPlusTwo spt = new SevenPlusTwo();
 //        spt.parseConfigs();

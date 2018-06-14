@@ -11,6 +11,13 @@
         <element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[1]]]></element>
         <element><![CDATA[/html/body/form/table/tbody/tr[3]/td[2]/input[2]]]></element>
     </page>
+    <page>
+        <url>https://profile.theguardian.com/register?returnUrl=https%3A%2F%2Fwww.theguardian.com%2Fus&amp;signInType=classic</url>
+        <name>firstName</name>
+        <name>lastName</name>
+        <name>email</name>
+        <name>password</name>
+    </page>
     <!--<page>-->
         <!--<url>https://www.facebook.com/</url>-->
         <!--<name>firstname</name>-->

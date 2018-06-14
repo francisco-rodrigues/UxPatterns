@@ -9,8 +9,11 @@ import javafx.beans.binding.BooleanExpression;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 
 import java.io.*;
 
@@ -33,6 +36,8 @@ public class Consistency {
     private List<List<String>> elementsCss = new ArrayList<>();
     private List<Dimension> elementsSize = new ArrayList<>();
     private List<Point> elementsLocation = new ArrayList<>();
+    private List<String> elementsTooltip = new ArrayList<>();
+    private List<String> elementsPlaceholder = new ArrayList<>();
 
 
 
@@ -65,6 +70,14 @@ public class Consistency {
 
     private void setElementsLocation(List<Point> elementsLocation) {
         this.elementsLocation = elementsLocation;
+    }
+
+    public void setElementsTooltip(List<String> elementsTooltip) {
+        this.elementsTooltip = elementsTooltip;
+    }
+
+    public void setElementsPlaceholder(List<String> elementsPlaceholder) {
+        this.elementsPlaceholder = elementsPlaceholder;
     }
 
     private int parseConfigs(){
@@ -190,13 +203,13 @@ public class Consistency {
         System.out.println();
     }
 
-
-
     private void fetchElementsData(List<String> attributes){
 
         List<List<String>> allElemsCSS = new ArrayList<>();
         List<Dimension> sizes = new ArrayList<>();
         List<Point> locations = new ArrayList<>();
+        List<String> tooltips = new ArrayList<>();
+        List<String> placeholders = new ArrayList<>();
 
         for(int i=0; i<testUrls.size();i++){
 
@@ -206,8 +219,11 @@ public class Consistency {
 
 
                 WebElement elem = DriverHandler.getDriver().findElementByXPath(testXpaths.get(i).get(j));
-                
 
+
+
+                placeholders.add(findElementPlaceholder(elem));
+                tooltips.add(findElementTooltip(elem));
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());
                 locations.add(elem.getLocation());
@@ -218,7 +234,8 @@ public class Consistency {
 
                 WebElement elem = DriverHandler.getDriver().findElementByName(testNames.get(i).get(j));
 
-
+                placeholders.add(findElementPlaceholder(elem));
+                tooltips.add(findElementTooltip(elem));
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());
                 locations.add(elem.getLocation());
@@ -230,6 +247,8 @@ public class Consistency {
                 WebElement elem = DriverHandler.getDriver().findElementById(testIds.get(i).get(j));
 
 
+                placeholders.add(findElementPlaceholder(elem));
+                tooltips.add(findElementTooltip(elem));
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());
                 locations.add(elem.getLocation());
@@ -241,6 +260,8 @@ public class Consistency {
                 WebElement elem = DriverHandler.getDriver().findElementByClassName(testClasses.get(i).get(j));
 
 
+                placeholders.add(findElementPlaceholder(elem));
+                tooltips.add(findElementTooltip(elem));
                 allElemsCSS.add(getElementCSSValues(attributes, elem));
                 sizes.add(elem.getSize());
                 locations.add(elem.getLocation());
@@ -252,6 +273,91 @@ public class Consistency {
         setElementsCss(allElemsCSS);
         setElementsSize(sizes);
         setElementsLocation(locations);
+        setElementsTooltip(tooltips);
+        setElementsPlaceholder(placeholders);
+    }
+
+    private String findElementTooltip(WebElement elem){
+
+        String tooltip;
+
+        if(elem.getTagName().equals("input")){
+            if(elem.getAttribute("type").equals("text") || elem.getAttribute("type").equals("password") || elem.getAttribute("type").equals("email")){
+
+                Actions builder = new Actions(DriverHandler.getDriver());
+
+                tooltip = elem.getAttribute("title");
+
+
+                if (tooltip.equals(""))
+                {
+
+                    Action mouseOver = builder.moveToElement(elem).build();
+                    mouseOver.perform();
+
+                    try {
+                        tooltip = DriverHandler.getDriver().findElementById("tooltip").getText();
+                    } catch (NoSuchElementException e) {
+                        //System.out.println("FAILED TO LOCATE");
+                    }
+
+                    if (tooltip.equals("")) {
+                        try {
+                            tooltip = DriverHandler.getDriver().findElementByClassName("tooltip").getText();
+                        } catch (NoSuchElementException e) {
+                            //System.out.println("FAILED TO LOCATE");
+                        }
+
+                        if (tooltip.equals("")) {
+                            try {
+                                tooltip = DriverHandler.getDriver().findElementById("tooltiptext").getText();
+                            } catch (NoSuchElementException e) {
+                                //System.out.println("FAILED TO LOCATE");
+                            }
+
+                            if (tooltip.equals("")) {
+                                try {
+                                    tooltip = DriverHandler.getDriver().findElementByClassName("tooltiptext").getText();
+                                } catch (NoSuchElementException e) {
+                                    //System.out.println("FAILED TO LOCATE");
+                                }
+                                if (tooltip.equals("")) {
+                                    tooltip = "not found";
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }else tooltip = "invalid";
+        }else tooltip = "invalid";
+
+
+        return tooltip;
+    }
+
+    private String findElementPlaceholder(WebElement elem){
+
+
+        String placeholder = "invalid";
+
+        if(elem.getTagName().equals("input")) {
+            if (elem.getAttribute("type").equals("text") || elem.getAttribute("type").equals("password") || elem.getAttribute("type").equals("email")) {
+
+                placeholder = elem.getAttribute("placeholder");
+
+                if (placeholder != null) {
+                    if (placeholder.equals("")) {
+                        placeholder = "not found";
+                    }
+                } else placeholder = "not found";
+
+            }
+        }
+
+
+        return placeholder;
+
     }
 
 
@@ -362,7 +468,31 @@ public class Consistency {
         }
     }
 
+    private void runTestTooltip(){
 
+        for(int i=0; i<elementsTooltip.size();i++) {
+            if (!elementsTooltip.get(i).equals("invalid")){
+                if(elementsTooltip.get(i).equals("not found")){
+                    System.out.println("Tooltip not found");
+                }else System.out.println("Tooltip value: " + elementsTooltip.get(i));
+            }else System.out.println("Element not analyzed for tooltips");
+
+        }
+
+    }
+
+    private void runTestPlacehoder(){
+
+        for(int i=0; i<elementsPlaceholder.size();i++) {
+
+            if (!elementsPlaceholder.get(i).equals("invalid")){
+                if(elementsPlaceholder.get(i).equals("not found")){
+                    System.out.println("Placeholder not found");
+                }else System.out.println("Placeholder value: " + elementsPlaceholder.get(i));
+            }else System.out.println("Element not analyzed for placeholders");
+
+        }
+    }
 
 
     public void run(){
@@ -394,7 +524,7 @@ public class Consistency {
 
     }
 
-    public void run(boolean css, boolean position, boolean size, int pivot, int cssPercentage, boolean horizontalAlignment, int positionOffset, boolean areaRatio, boolean dimensionDiff){
+    public void run(boolean css, boolean position, boolean size, boolean tooltip, int pivot, int cssPercentage, boolean horizontalAlignment, int positionOffset, boolean areaRatio, boolean dimensionDiff){
 
         this.parseConfigs();
 
@@ -418,6 +548,15 @@ public class Consistency {
             System.out.println("Size: ");
             runTestSize(pivot, areaRatio, dimensionDiff);
             //System.out.println(sizeRatio(elementsSize.get(0), elementsSize.get(1)));
+        }
+        if(tooltip){
+            System.out.println("Tooltips: ");
+            runTestTooltip();
+            System.out.println();
+
+            System.out.println("Placeholders: ");
+            runTestPlacehoder();
+            System.out.println();
         }
 
 

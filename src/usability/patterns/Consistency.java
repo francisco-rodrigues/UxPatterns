@@ -1,17 +1,14 @@
 package usability.patterns;
 
+import java.util.Arrays;
 import java.util.List;
 import java.io.*;
 
 
 import auxiliary.DriverHandler;
-import javafx.beans.binding.BooleanExpression;
 import org.jdom2.*;
 import org.jdom2.input.SAXBuilder;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 
@@ -360,6 +357,70 @@ public class Consistency {
 
     }
 
+    private void getPageHtml(String url){
+
+        DriverHandler.getDriver().get(url);
+
+        List<String> textCss = Arrays.asList("color", "direction", "letter-spacing", "line-height", "text-align", "text-decoration-color", "text-decoration-line", "text-decoration-style", "text-indent", "text-shadow", "text-transform", "vertical-align", "white-space", "word-spacing");
+
+        List<WebElement> allElements = DriverHandler.getDriver().findElementsByCssSelector("*");
+        List<Integer> indexList = new ArrayList<>();
+
+        List<List<String>> cssValues = new ArrayList<>();
+        List<Integer> cssIndex = new ArrayList<>();
+
+        for(int i=0; i< allElements.size(); i++){
+
+            WebElement e = allElements.get(i);
+
+            String text = e.getText();
+            for (WebElement child : e.findElements(By.xpath("./*"))) {
+                text = text.replaceFirst(child.getText(), "");
+            }
+
+            if(!text.trim().equals("")){
+                indexList.add(i);
+            }
+
+        }
+
+        for(int i : indexList){
+
+
+            List<String> elemTextCss = getElementCSSValues(textCss, allElements.get(i));
+
+
+            if(cssValues.contains(elemTextCss)){
+
+                for(int j=0; j < cssValues.size(); j++){
+                    if(cssValues.get(j).equals(elemTextCss)){
+                        cssIndex.add(j);
+                    }
+                }
+
+            }else {
+                cssValues.add(elemTextCss);
+                cssIndex.add(cssValues.size() -1);
+            }
+        }
+
+
+        for(int i=0; i< cssValues.size(); i++){
+            System.out.println("Values " + i);
+            for (int j =0; j< cssIndex.size(); j++){
+                if(cssIndex.get(j).equals(i)){
+                    System.out.println(allElements.get(indexList.get(j)).getText());
+                }
+            }
+            System.out.println();
+            for (int j=0; j< cssValues.get(i).size(); j++){
+                System.out.println(textCss.get(j) + ": " + cssValues.get(i).get(j));
+            }
+            System.out.println("----------------------");
+            System.out.println();
+        }
+
+    }
 
 
     private List<Integer> compareCssValues(List<String> pivot, List<String> elem){
@@ -411,6 +472,9 @@ public class Consistency {
         return new Dimension(width,height);
 
     }
+
+
+
 
     private void runTestCss(int pivot, int cssPercentage, List<String> attributes){
 
@@ -495,6 +559,8 @@ public class Consistency {
     }
 
 
+
+
     public void run(){
 
         this.parseConfigs();
@@ -524,12 +590,13 @@ public class Consistency {
 
     }
 
-    public void run(boolean css, boolean position, boolean size, boolean tooltip, int pivot, int cssPercentage, boolean horizontalAlignment, int positionOffset, boolean areaRatio, boolean dimensionDiff){
+    public void run(boolean css, boolean position, boolean size, boolean tooltip, int pivot, int cssPercentage, boolean horizontalAlignment, int positionOffset, boolean areaRatio, boolean dimensionDiff, boolean pagetext, String textUrl){
 
         this.parseConfigs();
 
         List<String> cssattr = this.parseCssAttributes();
-        fetchElementsData(cssattr);
+
+        if(css || position|| size || tooltip){fetchElementsData(cssattr);}
 
 
         System.out.println();
@@ -557,6 +624,10 @@ public class Consistency {
             System.out.println("Placeholders: ");
             runTestPlacehoder();
             System.out.println();
+        }
+        if(pagetext){
+
+            getPageHtml(textUrl);
         }
 
 

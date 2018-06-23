@@ -361,9 +361,10 @@ public class Consistency {
 
         DriverHandler.getDriver().get(url);
 
-        List<String> textCss = Arrays.asList("color", "direction", "letter-spacing", "line-height", "text-align", "text-decoration-color", "text-decoration-line", "text-decoration-style", "text-indent", "text-shadow", "text-transform", "vertical-align", "white-space", "word-spacing");
+        List<String> textCss = Arrays.asList("color", "direction", "letter-spacing", "line-height", "text-decoration-color", "text-decoration-line", "text-decoration-style", "text-indent", "text-shadow", "text-transform", "white-space", "word-spacing");
 
-        List<WebElement> allElements = DriverHandler.getDriver().findElementsByCssSelector("*");
+        //List<WebElement> allElements = DriverHandler.getDriver().findElementsByCssSelector("*");
+        List<WebElement> allElements = DriverHandler.getDriver().findElementsByXPath("//*");
         List<Integer> indexList = new ArrayList<>();
 
         List<List<String>> cssValues = new ArrayList<>();
